@@ -41,6 +41,7 @@ func main() {
 	}
 
 	fmt.Printf("%s\n", reports)
+
 }
 
 // displayHelp prints usage instructions and explanations for each term in the table.
