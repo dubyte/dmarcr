@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -81,7 +82,11 @@ func (r *AggregatedReports) ReadFromStdin() error {
 		return fmt.Errorf("error reading from stdin: %v", err)
 	}
 
-	xmlDocs := strings.Split(string(stdinData), `<?xml version="1.0" encoding="UTF-8" ?>`)
+	// Split the input data into individual XML documents using a regular expression.
+	xmlDeclPattern := `\<\?xml version="1.0"( encoding="UTF-8")?\s*\?\>`
+	re := regexp.MustCompile(xmlDeclPattern)
+	xmlDocs := re.Split(string(stdinData), -1)
+
 	for _, xmlDoc := range xmlDocs {
 		if strings.TrimSpace(xmlDoc) == "" {
 			continue
