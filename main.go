@@ -15,9 +15,14 @@ func main() {
 	reports := feedback.New()
 
 	switch {
-	case len(os.Args) == 2 && os.Args[1] == "-version":
+	case len(os.Args) == 2 && (os.Args[1] == "--version" || os.Args[1] == "-v"):
 		// If -version is provided, print the version and exit.
 		fmt.Println(version)
+		os.Exit(0)
+
+	case len(os.Args) == 2 && (os.Args[1] == "--help" || os.Args[1] == "-h"):
+		// Display the help message.
+		displayHelp()
 		os.Exit(0)
 
 	case len(os.Args) == 2:
@@ -33,11 +38,6 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error reading from stdin: %v", err)
 		}
-
-	default:
-		// If any other arguments are provided, or more than one argument is provided, display the help message.
-		displayHelp()
-		os.Exit(0)
 	}
 
 	fmt.Printf("%s\n", reports)
